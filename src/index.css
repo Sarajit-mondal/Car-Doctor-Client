@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  header,
+  main,
+  Footer {
+    @apply max-w-7xl mx-auto;
+  }
+
+  a {
+    @apply text-lg font-semibold;
+  }
+}
+
+ul li a.active {
+  background-color: red;
+}

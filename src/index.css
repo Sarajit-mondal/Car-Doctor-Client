@@ -6,7 +6,7 @@
   header,
   main,
   Footer {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-7xl mx-auto w-11/12;
   }
 
   a {

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { getData } from "../../../dataLoad/DataLoad";
 
 function Ourservice() {
 const [services,setServices] = useState()
 
 useEffect(()=>{
-    axios.get('./services.json')
+    getData('http://localhost:5000/service')
     .then(data => setServices(data.data))
 },[])
   return (
@@ -21,7 +23,10 @@ useEffect(()=>{
      
       <div className="flex justify-between items-center text-red-500 font-bold">
       <p>Price : {service.price}</p>
-        <button className="btn btn-primary"><FaLongArrowAltRight></FaLongArrowAltRight></button>
+      <Link to={`checkOut/${service._id}`}>
+      <button className="btn btn-primary">Book Now</button>
+      </Link>
+       
       </div>
     </div>
   </div>)

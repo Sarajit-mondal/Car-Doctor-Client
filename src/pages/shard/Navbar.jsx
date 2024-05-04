@@ -1,9 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import { FaShoppingBag } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
+import { useContext } from "react";
+import { authContext } from "../../utility/AuthProvider";
+import { signOut } from "firebase/auth";
+import { auth } from "../../utility/Firebase.cofige";
+import { AlertError, AlertSuccess } from "../../utility/AlertAndTost";
 
 function Navbar() {
+
+  const {user} = useContext(authContext)
+
+
+  const handleLogOut =()=>{
+    signOut(auth)
+    .then(result => {
+      AlertSuccess("Log Out")
+    })
+    .catch(error =>{
+      AlertError(error.code || error.message)
+    })
+  }
   return (
     <div className="navbar bg-transparent">
       <div className="navbar-start">
@@ -31,18 +49,22 @@ function Navbar() {
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li>
-              <NavLink to="/about">About</NavLink>
-            </li>
-            <li>
-              <NavLink to="/service">Service</NavLink>
-            </li>
-            <li>
-              <NavLink to="/blog">Blog</NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact">Contact</NavLink>
-            </li>
+            {
+            user ? <div className="flex"> <li>
+            <NavLink to="/about">About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/allOrder">All Order</NavLink>
+          </li>
+           <li>
+           <button className="btn" onClick={handleLogOut}>Log Out</button>
+         </li></div> : <div className="flex gap-5  "> <li>
+            <NavLink to="/logIn">Log In</NavLink>
+          </li>
+          <li>
+            <NavLink to="/signUp">Sign UP</NavLink>
+          </li></div>
+          }
           </ul>
         </div>
         <NavLink to="/" className=" text-xl">
@@ -54,18 +76,25 @@ function Navbar() {
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
-          <li>
+          {
+            user ? <div className="flex"> <li>
             <NavLink to="/about">About</NavLink>
           </li>
           <li>
-            <NavLink to="/service">Service</NavLink>
+            <NavLink to="/allOrder">All Order</NavLink>
+          </li>
+           <li>
+           <button className="btn" onClick={handleLogOut}>Log Out</button>
+         </li></div> : <div className="flex gap-5  "> <li>
+            <NavLink to="/logIn">Log In</NavLink>
           </li>
           <li>
-            <NavLink to="/blog">Blog</NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact">Contact</NavLink>
-          </li>
+            <NavLink to="/signUp">Sign UP</NavLink>
+          </li></div>
+          }
+       
+         
+         
         </ul>
       </div>
       <div className="navbar-end flex items-center gap-5">

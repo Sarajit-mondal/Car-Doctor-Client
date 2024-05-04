@@ -1,24 +1,45 @@
+import { useContext } from 'react';
 import login from '../../assets/images/login/login.svg'
-
+import { authContext } from '../../utility/AuthProvider';
+import { AlertError, AlertSuccess } from '../../utility/AlertAndTost';
 function LogIn() {
+  const {logInUser } = useContext(authContext)
+// singIn
+const handleSubmit =(e)=>{
+  e.preventDefault()
+  const from = e.target;
+  const email = from.email.value;
+  const password = from.password.value;
+
+ logInUser(email,password)
+ .then(result => {
+  console.log(result.user)
+  AlertSuccess("Log In")
+ })
+ .catch(error =>{
+  console.log(error)
+  AlertError(error.code || error.message)
+ })
+}
+
   return (
     <div>
     <div className="hero min-h-screen ">
 <div className="hero-content flex-col lg:flex-row-reverse gap-20">
 
 <div className="card shrink-0 w-full max-w-sm shadow-2xl ">
- <form className="card-body">
+ <form className="card-body" onSubmit={handleSubmit}>
    <div className="form-control">
      <label className="label">
        <span className="label-text">Email</span>
      </label>
-     <input type="email" placeholder="email" className="input input-bordered bg-transparent" required />
+     <input type="email" name='email' placeholder="email" className="input input-bordered bg-transparent" required />
    </div>
    <div className="form-control">
      <label className="label">
        <span className="label-text">Password</span>
      </label>
-     <input type="password" placeholder="password" className="input input-bordered bg-transparent" required />
+     <input type="password" name='password' placeholder="password" className="input input-bordered bg-transparent" required />
      <label className="label">
        <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
      </label>

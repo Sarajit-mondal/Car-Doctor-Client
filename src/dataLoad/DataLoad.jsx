@@ -7,5 +7,10 @@ const getData = (url) =>{
 }
 
 
+// post order
+const postOrder = (url,order)=>{
+ return axios.post(url,order)
+}
 
-export {getData}
+
+export {getData,postOrder}

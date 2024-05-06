@@ -2,28 +2,34 @@ import { useContext } from 'react';
 import login from '../../assets/images/login/login.svg'
 import { authContext } from '../../utility/AuthProvider';
 import { AlertError, AlertSuccess } from '../../utility/AlertAndTost';
+import Loading from '../../components/loading/Loading';
 function LogIn() {
-  const {logInUser } = useContext(authContext)
+  const {logInUser,loading,setLoading } = useContext(authContext)
+
+
 // singIn
 const handleSubmit =(e)=>{
   e.preventDefault()
   const from = e.target;
   const email = from.email.value;
   const password = from.password.value;
-
+  setLoading(true)
  logInUser(email,password)
  .then(result => {
+  setLoading(false)
   console.log(result.user)
   AlertSuccess("Log In")
  })
  .catch(error =>{
+  setLoading(false)
   console.log(error)
   AlertError(error.code || error.message)
  })
 }
 
+
   return (
-    <div>
+    <div className='relative'>
     <div className="hero min-h-screen ">
 <div className="hero-content flex-col lg:flex-row-reverse gap-20">
 
@@ -54,6 +60,10 @@ const handleSubmit =(e)=>{
 </div>
 </div>
 </div>
+{/* lodading */}
+{
+  loading && <div className='absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4'><Loading></Loading></div>
+}
 </div>
   )
 }

@@ -12,10 +12,17 @@ function AllOrder() {
     const {user} = useContext(authContext)
 
     useEffect(() => {
-        axios.get('./services.json')
+        axios.get('http://localhost:5000/allOrder')
             .then(data => setAllOrder(data.data))
     }, [])
 
+
+    const handleConfirm  = (id) =>{
+      axios.patch(`http://localhost:5000/allOrder/${id}`,{status:"confirm"})
+      .then(res =>{
+        console.log(res)
+      })
+    }
     console.log(allOrder)
     return (
        <>
@@ -55,7 +62,14 @@ function AllOrder() {
                             </td>
                             <td>${order.price}</td>
                             <th>
-                                <button className="btn bg-orange-500 btn-sm">Pending</button>
+                                {
+                                       
+                                     allOrder &&   order.status === "confirm" ? <button className="btn bg-orange-500 btn-sm">
+                                        Confirm</button> : <button onClick={()=>handleConfirm(order._id)}  className="btn bg-orange-500 btn-sm">
+                                Panding</button>
+                                    
+                                }
+                                
                             </th>
                         </tr>)
                     }

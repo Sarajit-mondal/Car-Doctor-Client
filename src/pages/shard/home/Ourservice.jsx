@@ -23,7 +23,7 @@ useEffect(()=>{
      
       <div className="flex justify-between items-center text-red-500 font-bold">
       <p>Price : {service.price}</p>
-      <Link to={`checkOut/${service._id}`}>
+      <Link to={`/checkOut/${service._id}`}>
       <button className="btn btn-primary">Book Now</button>
       </Link>
        

@@ -2,12 +2,18 @@ import { useContext } from "react"
 import { authContext } from "../../utility/AuthProvider"
 import { postOrder } from "../../dataLoad/DataLoad"
 import { AlertError, AlertSuccess } from "../../utility/AlertAndTost"
+import { useLoaderData, useParams } from "react-router-dom"
 
 
 function CheckOut() {
-    const {user} = useContext(authContext)
+    const {user,loading,setLoading} = useContext(authContext)
+    const orderItem = useLoaderData()
+    const {id} = useParams()
+    console.log(orderItem)
     const {email} = user || {}
 
+    const {title,price,img,} = orderItem || {}
+     console.log(orderItem)
     // create order
     const handleSubmit =(e) =>{
         e.preventDefault()
@@ -19,7 +25,7 @@ function CheckOut() {
         const date = form.date.value;
        
 
-        const order = {serviceName,serviceType,servicePrice,description,date,email}
+        const order = {serviceName,serviceType,servicePrice,description,date,email,price,status : "Panding",img}
         console.log(order)
 
         postOrder('http://localhost:5000/allOrder',order)
@@ -27,9 +33,12 @@ function CheckOut() {
             AlertSuccess("Order Confarm")
         })
         .catch(error =>{
+            setLoading(flase)
             AlertError(error.code || error.message)
+
         })
     }
+
     return (
         <div>
             <form action="" onSubmit={handleSubmit}>
@@ -41,7 +50,7 @@ function CheckOut() {
                         </label>
                         {/* service Price */}
                         <label className="input input-bordered flex items-center gap-2">
-                            <input type="text" name="price" className="grow" placeholder="Service Price" />
+                            <input type="text" defaultValue={price} name="price" className="grow" placeholder="Service Price" />
                         </label>
                     </div>
                     {/* right side */}
